@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_244105_open311.WebexMessage</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>WebexMessage</name>
+        <script><![CDATA[var WebexMessage = Class.create();
+WebexMessage.prototype = {
+initialize: function() {
+},
+'send': function (endpoint, text) {
+// Set the text
+this.payload.text = text || this.payload.text;
+// Encode the payload as JSON
+var encoded_payload = JSON.stringify(this.payload);
+// Create and send the REST Message
+var msg = new sn_ws.RESTMessageV2();
+msg.setEndpoint(endpoint);
+msg.setHttpMethod(this.method);
+msg.setRequestHeader("Content-Type", "application/json");
+msg.setRequestBody(encoded_payload);
+var res = msg.execute();
+return res;
+},
+'method': 'post',
+'payload': {
+'text': 'Service Now Event',
+},
+type: 'WebexMessage'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-07-11 16:34:38</sys_created_on>
+        <sys_id>ec6453284f1313009f5801bda310c7a7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>WebexMessage</sys_name>
+        <sys_package display_value="Open311" source="x_244105_open311">925713524f0313009f5801bda310c7fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Open311">925713524f0313009f5801bda310c7fa</sys_scope>
+        <sys_update_name>sys_script_include_ec6453284f1313009f5801bda310c7a7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-07-11 16:34:38</sys_updated_on>
+    </sys_script_include>
+</record_update>
