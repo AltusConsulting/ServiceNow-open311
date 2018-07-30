@@ -3,10 +3,10 @@
     <sys_script action="INSERT_OR_UPDATE">
         <abort_action>false</abort_action>
         <access>package_private</access>
-        <action_delete>true</action_delete>
-        <action_insert>true</action_insert>
+        <action_delete>false</action_delete>
+        <action_insert>false</action_insert>
         <action_query>false</action_query>
-        <action_update>false</action_update>
+        <action_update>true</action_update>
         <active>true</active>
         <add_message>false</add_message>
         <advanced>true</advanced>
@@ -19,8 +19,8 @@
         <filter_condition/>
         <is_rest>false</is_rest>
         <message/>
-        <name> Send Webex Message</name>
-        <order>100</order>
+        <name>Send Notification Message</name>
+        <order>200</order>
         <priority>100</priority>
         <rest_method/>
         <rest_method_text/>
@@ -29,34 +29,46 @@
         <rest_variables/>
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
-	var webex = new WebexMessage();
-	var message = "a record was removed, you can see the list of all available records in the following [link](https://"+ gs.getProperty('instance_name') + ".service-now.com/nav_to.do?uri=/x_244105_open311_request_list.do)";
-	
-	if(current != null)
-	{
-		message ="The request with Identifier number **"+current.number.toString()+"** has been created, you can see it in the following **[link](https://"+ gs.getProperty('instance_name') +
-".service-now.com/nav_to.do?uri=/x_244105_open311_request.do?sys_id=" + current.sys_id+")** ";
-	}
-	
-	var res = webex.send("https://cisco-spark-integration-management-webhook.cloudhub.io/api/hooks/d7ef16e3-808b-11e8-872c-123e7665f0b0",message);
+
+	// Add your code here
+
+	var notification = new NotificationMessage();
+	var message = {
+		"to" : "/topics/reports",
+		"delay_while_idle" : true,
+		"priority" : "high",
+		"data" : {
+			"alert" : false,
+			"id" : current.number.toString(),
+			"page" : "/improve-city"
+		},
+		"notification" : {
+			"body" : "Ver el reporte en la instancia de ServiceNow",
+			"title" : "Reporte "+ current.number.toString() +" ha sido actualizado",
+			"sound" : "enable"
+		}
+	};
+	var res = notification.send("https://messaging311.aws.altus.cr/api/messaging/v1/notifications",message);
+	gs.info("status code: "+res.getStatusCode());
+	gs.info("response body "+res.getBody());
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-07-12 20:10:43</sys_created_on>
+        <sys_created_on>2018-07-20 20:31:56</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
-        <sys_id>163e89054f1313009f5801bda310c7ce</sys_id>
-        <sys_mod_count>31</sys_mod_count>
-        <sys_name> Send Webex Message</sys_name>
+        <sys_id>fddf126b4f9313009f5801bda310c74b</sys_id>
+        <sys_mod_count>24</sys_mod_count>
+        <sys_name>Send Notification Message</sys_name>
         <sys_overrides/>
         <sys_package display_value="Open311" source="x_244105_open311">925713524f0313009f5801bda310c7fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Open311">925713524f0313009f5801bda310c7fa</sys_scope>
-        <sys_update_name>sys_script_163e89054f1313009f5801bda310c7ce</sys_update_name>
+        <sys_update_name>sys_script_fddf126b4f9313009f5801bda310c74b</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-07-24 18:44:12</sys_updated_on>
+        <sys_updated_on>2018-07-23 22:00:31</sys_updated_on>
         <template/>
         <when>async</when>
     </sys_script>
-    <sys_translated_text action="delete_multiple" query="documentkey=163e89054f1313009f5801bda310c7ce"/>
+    <sys_translated_text action="delete_multiple" query="documentkey=fddf126b4f9313009f5801bda310c74b"/>
 </record_update>
