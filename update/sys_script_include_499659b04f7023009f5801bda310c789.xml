@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_244105_open311.UpdateStatus</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>UpdateStatus</name>
+        <script><![CDATA[var UpdateStatus = Class.create();
+UpdateStatus.prototype = {
+    initialize: function() {
+    },
+	'send': function(endpoint, message) {
+		
+		if(message != null) {
+			this.payload = message;
+		}
+		
+		var encoded_payload = JSON.stringify(this.payload);
+		
+		var msg = new sn_ws.RESTMessageV2();
+		
+		msg.setEndpoint(endpoint);
+		msg.setHttpMethod(this.method);
+		msg.setRequestHeader("Content-Type", "application/json");
+		msg.setRequestBody(encoded_payload);
+		var res = msg.execute();
+		return res;
+		
+	},
+	'method': 'put',
+	'payload': {
+		'id' : '',
+		'status': 'Closed'
+	},
+    type: 'UpdateStatus'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-09-24 15:52:21</sys_created_on>
+        <sys_id>499659b04f7023009f5801bda310c789</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>UpdateStatus</sys_name>
+        <sys_package display_value="Open311" source="x_244105_open311">925713524f0313009f5801bda310c7fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Open311">925713524f0313009f5801bda310c7fa</sys_scope>
+        <sys_update_name>sys_script_include_499659b04f7023009f5801bda310c789</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-09-24 16:59:45</sys_updated_on>
+    </sys_script_include>
+</record_update>
